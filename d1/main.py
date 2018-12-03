@@ -1,9 +1,8 @@
-import urllib.request
-
 frequency = 0
 history = set()
 history.add(frequency)
 
+# Read input file 
 lines = []
 with open('input.txt', 'r') as f:
     lines = f.readlines()
