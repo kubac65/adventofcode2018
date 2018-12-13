@@ -1,5 +1,5 @@
 player_count = 458
-last_marble = 7130700
+last_marble = 71307
 
 # player_count = 9
 # last_marble = 25
