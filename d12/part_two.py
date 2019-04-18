@@ -36,7 +36,7 @@ def next_gen(previous_state, starting_idx):
         if previous_state:
             window.popleft()
             window.append(previous_state.popleft())
-        
+
     # prune leading False's
     stop = False
     while not stop:
@@ -69,34 +69,23 @@ print_pots(pots)
 seen_patterns = {}
 target = 50000000000
 
-iter = 0
-while True:
-    pots, idx = next_gen(pots, starting_idx)
+i = 0
+continue_searching = True
+prev_sum = 0
+
+while continue_searching:
+    pots, starting_idx = next_gen(pots, starting_idx)
+    curr_sum = sum_up(pots, starting_idx)
     t_pots = tuple(pots)
+    i += 1
     if t_pots in seen_patterns:
-        #if target % iter == 0:
-            p = iter - seen_patterns[t_pots][0]
-            idx_diff = idx - seen_patterns[t_pots]
-
-            remaining_repetitions = (target - iter) / p
-            next_start_idx = int(idx + (remaining_repetitions * p))
-            #idx_diff = idx - starting_idx
-
-            #next_start_idx = idx + idx_diff * (target - iter)
-            print(next_start_idx)
-            print(sum_up(pots, next_start_idx))
-            print_pots(pots)
-
-            break
+        final_sum = curr_sum + (target - i) * (curr_sum - prev_sum)
+        print('final sum: ' + str(final_sum))
+        continue_searching = False
     else:
-        seen_patterns[t_pots] = iter, starting_idx
-        print(starting_idx)
-        print(sum_up(pots, starting_idx))
+        print('idx:' + str(starting_idx))
+        print('iteration:' + str(i))
+        print('sum:' + str(curr_sum))
         print_pots(pots)
-
-    iter += 1
-    starting_idx = idx
-
-    #print(starting_idx)
-    #print(sum_up(pots, starting_idx))
-    #print_pots(pots)
+        seen_patterns[t_pots] = i, starting_idx
+        prev_sum = curr_sum
